@@ -1,5 +1,6 @@
 ﻿using Models;
 using Repository;
+using Service.Mappers;
 
 namespace Service
 {
@@ -13,7 +14,9 @@ namespace Service
         }
         public async Task<GetCustomerResponseModel> GetCustomer(int id)
         {
-            throw new NotImplementedException();
+            var result = await customerRepository.GetCustomerById(id);
+
+            return result.CustomerEntityToGetCustomerResponseModel();
         }
     }
 }

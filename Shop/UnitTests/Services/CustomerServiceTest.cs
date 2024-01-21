@@ -21,7 +21,7 @@ namespace UnitTests.Services
             const int id = 1;
 
             var customerRepositoryMock = new Mock<ICustomerRepository>();
-            customerRepositoryMock.Setup(x => x.GetCustomerById(id));
+            customerRepositoryMock.Setup(x => x.GetCustomerById(id)).ReturnsAsync(new Domain.Entities.Customer.CustomerEntity() );
 
             var customerService = new CustomerService(customerRepositoryMock.Object);
 

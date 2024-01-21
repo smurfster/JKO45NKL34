@@ -4,7 +4,7 @@ namespace Repository
 {
     public class CustomerRepository : ICustomerRepository
     {
-        public Task<CustomerEntity> GetCustomerById(int id)
+        public async Task<CustomerEntity> GetCustomerById(int id)
         {
             throw new NotImplementedException();
         }
