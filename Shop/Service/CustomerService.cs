@@ -19,7 +19,7 @@ namespace Service
 
         public async Task<int> CreateCustomer (CreateUpdateCustomerRequestModel createCustomerRequestModel)
         {     
-            var entity = createCustomerRequestModel.CreateCustomerRequestModelToCustomerEntity();
+            var entity = createCustomerRequestModel.CreateUpdateCustomerRequestModelToCustomerEntity();
             var result = await customerRepository.CreateCustomer(entity);
             dbContext.SaveChanges();
             return result.Id;
@@ -39,7 +39,9 @@ namespace Service
 
         public async Task Update(CreateUpdateCustomerRequestModel createCustomerRequestModel)
         {
-            throw new NotImplementedException();
+            var entity = createCustomerRequestModel.CreateUpdateCustomerRequestModelToCustomerEntity();
+            await customerRepository.UpdateCustomer(entity);
+            dbContext.SaveChanges();
         }
     }
 }

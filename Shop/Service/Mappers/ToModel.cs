@@ -22,7 +22,7 @@ namespace Service.Mappers
             };
         }
 
-        internal static CustomerEntity CreateCustomerRequestModelToCustomerEntity(this CreateUpdateCustomerRequestModel model)
+        internal static CustomerEntity CreateUpdateCustomerRequestModelToCustomerEntity(this CreateUpdateCustomerRequestModel model)
         {
             return new CustomerEntity(model.Name, model.Email, model.Phone);
         }
