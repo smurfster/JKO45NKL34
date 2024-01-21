@@ -1,5 +1,6 @@
 ﻿using Domain.Entities.Customer;
 using Domain.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository
 {
@@ -14,7 +15,8 @@ namespace Repository
 
         public async Task<CustomerEntity> GetCustomerById(int id)
         {
-            throw new NotImplementedException();
+            var result = await dbContext.Customers.SingleOrDefaultAsync(o => o.Id == id);
+            return result;
         }
     }
 }

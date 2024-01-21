@@ -13,6 +13,8 @@ namespace Domain.Entities.Customer
         public string Email { get; private set; } = string.Empty;
         public string Phone { get; private set; } = string.Empty;
 
+        private CustomerEntity() { }
+
         public CustomerEntity(string name, string email, string phone)
         {
             if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));

@@ -1,6 +1,5 @@
 ﻿using Domain.Entities.Customer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Domain.Persistence
 {
@@ -11,8 +10,8 @@ namespace Domain.Persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(EFContext).Assembly);
+            
+            modelBuilder.ApplyConfiguration(new CustomerEntityConfig());
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -3,6 +3,7 @@ using Domain.Persistence;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Moq;
+using Moq.EntityFrameworkCore;
 using Repository;
 using System;
 using System.Collections.Generic;
@@ -19,11 +20,9 @@ namespace UnitTests.Repositories
         [Fact]
         public async Task GetCustomerById_OnSuccess_Return_Customer()
         {
-            var item = new CustomerEntity("bob", "steve@something.com", "3242342");
-            var data = new List<CustomerEntity> 
-            { 
-                item
-            }.AsQueryable();
+            CustomerEntity item;
+            IQueryable<CustomerEntity> data;
+            SetupData(out item, out data);
 
             var mockSet = new Mock<DbSet<CustomerEntity>>();
             mockSet.As<IQueryable<CustomerEntity>>().Setup(m => m.Provider).Returns(data.Provider);
@@ -32,15 +31,28 @@ namespace UnitTests.Repositories
             mockSet.As<IQueryable<CustomerEntity>>().Setup(m => m.GetEnumerator()).Returns(() => data.GetEnumerator());
 
             var dbContextMock = new Mock<EFContext>();
-            dbContextMock.Setup(c => c.Customers).Returns(mockSet.Object);
+            dbContextMock.Setup(c => c.Customers).ReturnsDbSet(mockSet.Object);
 
             var sut = new CustomerRepository(dbContextMock.Object);
 
-            var result = await sut.GetCustomerById(0);
+            var result = await sut.GetCustomerById(item.Id);
 
             result.Email.Should().Be(item.Email);
             result.Phone.Should().Be(item.Phone);
             result.Name.Should().Be(item.Name);
+        }
+
+        private static void SetupData(out CustomerEntity item, out IQueryable<CustomerEntity> data)
+        {
+            item = new CustomerEntity("bob", "steve@something.com", "3242342");
+            var type = item.GetType();
+            var idProperty = type.GetProperty(nameof(CustomerEntity.Id));
+            idProperty.SetValue(item, 1);
+
+            data = new List<CustomerEntity>
+            {
+                item
+            }.AsQueryable();
         }
     }
 }
