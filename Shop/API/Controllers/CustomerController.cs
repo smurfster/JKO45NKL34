@@ -18,6 +18,7 @@ namespace API.Controllers
         [HttpGet]
         public async Task<IActionResult> Get(int id)
         {
+            await customerService.GetCustomer(id);
             return Ok();
         }
     }
