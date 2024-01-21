@@ -25,7 +25,7 @@ namespace UnitTests.Controllers
         public async Task Update_OnSuccess_ReturnStatusCode204()
         {            
             Mock<ICustomerService> customerServiceMock = SetupCustomerServiceMock();
-            customerServiceMock.Setup(x => x.Update(id, createCustomerRequestModel));
+            customerServiceMock.Setup(x => x.Update(id, createCustomerRequestModel)).ReturnsAsync(true);
 
             var sut = new CustomerController(customerServiceMock.Object);
 
@@ -41,7 +41,7 @@ namespace UnitTests.Controllers
 
             var sut = new CustomerController(customerServiceMock.Object);
 
-            var result = await sut.Update(id, createCustomerRequestModel) as NotFoundObjectResult;
+            var result = await sut.Update(id, createCustomerRequestModel) as NotFoundResult;
             result.StatusCode.Should().Be(404);
         }
 
