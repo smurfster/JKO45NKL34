@@ -27,8 +27,12 @@ namespace Service
 
         public async Task<bool> Delete(int id)
         {
-            await customerRepository.DeleteCustomer(id);
-            return true;
+            if (await customerRepository.DeleteCustomer(id))
+            { 
+                return true; 
+            }
+
+            return false;
         }
 
         public async Task<GetCustomerResponseModel?> GetCustomer(int id)
