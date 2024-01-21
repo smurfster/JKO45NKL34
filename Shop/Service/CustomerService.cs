@@ -21,6 +21,7 @@ namespace Service
         {     
             var entity = createCustomerRequestModel.CreateCustomerRequestModelToCustomerEntity();
             var result = await customerRepository.CreateCustomer(entity);
+            dbContext.SaveChanges();
             return result.Id;
         }
 
