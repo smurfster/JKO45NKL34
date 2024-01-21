@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Service;
@@ -33,7 +34,7 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateCustomerRequestModel customer)
         {
-            throw new NotImplementedException();
+            return StatusCode(StatusCodes.Status201Created);
         }
     }
 }

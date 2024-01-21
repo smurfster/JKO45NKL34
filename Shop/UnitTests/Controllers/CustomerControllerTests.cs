@@ -28,8 +28,7 @@ namespace UnitTests.Controllers
 
             var sut = new CustomerController(customerServiceMock.Object);
 
-            var result = await sut.Create(customer) as OkObjectResult;
-
+            var result = await sut.Create(customer) as StatusCodeResult;
             result.StatusCode.Should().Be(201);
         }
 
