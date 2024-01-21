@@ -39,7 +39,7 @@ namespace API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromQuery]int id, CreateUpdateCustomerRequestModel customer)
+        public async Task<IActionResult> Update([FromQuery] int id, CreateUpdateCustomerRequestModel customer)
         {
             if (await customerService.Update(id, customer))
             {
@@ -53,8 +53,12 @@ namespace API.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
-            await customerService.Delete(id);
-            return Ok();
+            if (await customerService.Delete(id))
+            {
+                return Ok();
+            }
+
+            return NotFound();
         }
     }
 }

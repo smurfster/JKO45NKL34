@@ -24,10 +24,11 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task Delete_OnSuccess_ReturnOK()
         {
-            Mock<ICustomerService> customerServiceMock = SetupCustomerServiceMock();            
+            Mock<ICustomerService> customerServiceMock = SetupCustomerServiceMock();
+            customerServiceMock.Setup(x => x.Delete(id)).ReturnsAsync(true);
 
             var sut = new CustomerController(customerServiceMock.Object);
-
+            
             var result = await sut.Delete(id) as OkResult;
             result.StatusCode.Should().Be(200);
         }
