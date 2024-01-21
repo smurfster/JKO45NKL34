@@ -12,9 +12,11 @@ namespace API.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        public ProductController()
+        private readonly IProductService productService;
+
+        public ProductController(IProductService productService)
         {
-            
+            this.productService = productService;
         }
 
         [HttpPost]
