@@ -40,7 +40,8 @@ namespace API.Controllers
 
         [HttpPut]
         public async Task<IActionResult> Update(CreateUpdateCustomerRequestModel customer)
-        {            
+        {
+            await customerService.Update(customer);
             return NoContent();
         }
     }
