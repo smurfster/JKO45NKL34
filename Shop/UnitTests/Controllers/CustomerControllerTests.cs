@@ -25,11 +25,11 @@ namespace UnitTests.Controllers
         public async Task Update_OnSuccess_ReturnStatusCode204()
         {            
             Mock<ICustomerService> customerServiceMock = SetupCustomerServiceMock();
-            customerServiceMock.Setup(x => x.Update(createCustomerRequestModel));
+            customerServiceMock.Setup(x => x.Update(id, createCustomerRequestModel));
 
             var sut = new CustomerController(customerServiceMock.Object);
 
-            var result = await sut.Update(createCustomerRequestModel) as NoContentResult;
+            var result = await sut.Update(id, createCustomerRequestModel) as NoContentResult;
             result.StatusCode.Should().Be(204);
         }
 
@@ -37,13 +37,13 @@ namespace UnitTests.Controllers
         public async Task Update_OnSuccess_InvokesCustomerServiceExactlyOnce()
         {
             Mock<ICustomerService> customerServiceMock = SetupCustomerServiceMock();
-            customerServiceMock.Setup(x => x.Update(createCustomerRequestModel));
+            customerServiceMock.Setup(x => x.Update(id, createCustomerRequestModel));
 
             var sut = new CustomerController(customerServiceMock.Object);
 
-            var result = await sut.Update(createCustomerRequestModel);
+            var result = await sut.Update(id, createCustomerRequestModel);
 
-            customerServiceMock.Verify(x => x.Update(createCustomerRequestModel), Times.Once());
+            customerServiceMock.Verify(x => x.Update(id, createCustomerRequestModel), Times.Once());
         }
 
         [Fact]

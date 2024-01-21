@@ -25,7 +25,7 @@ namespace Repository
             return result;
         }
 
-        public async Task UpdateCustomer(CustomerEntity customerEntity)
+        public async Task UpdateCustomer(int id, CustomerEntity customerEntity)
         {
             throw new NotImplementedException();
         }

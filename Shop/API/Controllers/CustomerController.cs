@@ -39,9 +39,9 @@ namespace API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(CreateUpdateCustomerRequestModel customer)
+        public async Task<IActionResult> Update([FromQuery]int id, CreateUpdateCustomerRequestModel customer)
         {
-            await customerService.Update(customer);
+            await customerService.Update(id, customer);
             return NoContent();
         }
     }

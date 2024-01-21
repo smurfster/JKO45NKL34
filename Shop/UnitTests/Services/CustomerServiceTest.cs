@@ -37,13 +37,13 @@ namespace UnitTests.Services
         {
             var customerRepositoryMock = new Mock<ICustomerRepository>();
 
-            customerRepositoryMock.Setup(x => x.UpdateCustomer(It.IsAny<CustomerEntity>()));
+            customerRepositoryMock.Setup(x => x.UpdateCustomer(id, It.IsAny<CustomerEntity>()));
 
             var customerService = new CustomerService(customerRepositoryMock.Object, dbContextMock.Object);
 
-            await customerService.Update(createCustomerRequestModel);
+            await customerService.Update(id, createCustomerRequestModel);
 
-            customerRepositoryMock.Verify(x => x.UpdateCustomer(It.IsAny<CustomerEntity>()), Times.Once());
+            customerRepositoryMock.Verify(x => x.UpdateCustomer(id, It.IsAny<CustomerEntity>()), Times.Once());
             dbContextMock.Verify(x => x.SaveChanges(), Times.Once);
         }
 

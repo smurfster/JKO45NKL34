@@ -37,10 +37,10 @@ namespace Service
             return result.CustomerEntityToGetCustomerResponseModel();
         }
 
-        public async Task Update(CreateUpdateCustomerRequestModel createCustomerRequestModel)
+        public async Task Update(int id, CreateUpdateCustomerRequestModel createCustomerRequestModel)
         {
             var entity = createCustomerRequestModel.CreateUpdateCustomerRequestModelToCustomerEntity();
-            await customerRepository.UpdateCustomer(entity);
+            await customerRepository.UpdateCustomer(id, entity);
             dbContext.SaveChanges();
         }
     }

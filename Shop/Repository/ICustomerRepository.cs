@@ -7,6 +7,6 @@ namespace Repository
     {
         Task<CustomerEntity> CreateCustomer(CustomerEntity customerEntity);
         Task<CustomerEntity> GetCustomerById(int id);
-        Task UpdateCustomer(CustomerEntity customerEntity);
+        Task UpdateCustomer(int id, CustomerEntity customerEntity);
     }
 }
