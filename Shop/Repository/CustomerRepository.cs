@@ -24,5 +24,10 @@ namespace Repository
             var result = await dbContext.Customers.SingleOrDefaultAsync(o => o.Id == id);
             return result;
         }
+
+        public async Task UpdateCustomer(CustomerEntity customerEntity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

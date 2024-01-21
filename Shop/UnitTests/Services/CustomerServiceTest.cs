@@ -33,7 +33,22 @@ namespace UnitTests.Services
         };
 
         [Fact]
-        public async Task CreateCustomer_WhenCalled_InvokesCustomerRepository()
+        public async Task UpdateCustomer_WhenCalled_InvokesCustomerRepositoryAndDbContextMock()
+        {
+            var customerRepositoryMock = new Mock<ICustomerRepository>();
+
+            customerRepositoryMock.Setup(x => x.UpdateCustomer(It.IsAny<CustomerEntity>()));
+
+            var customerService = new CustomerService(customerRepositoryMock.Object, dbContextMock.Object);
+
+            await customerService.Update(createCustomerRequestModel);
+
+            customerRepositoryMock.Verify(x => x.UpdateCustomer(It.IsAny<CustomerEntity>()), Times.Once());
+            dbContextMock.Verify(x => x.SaveChanges(), Times.Once);
+        }
+
+        [Fact]
+        public async Task CreateCustomer_WhenCalled_InvokesCustomerRepositoryAndDbContextMock()
         {
             var customerRepositoryMock = new Mock<ICustomerRepository>();
             

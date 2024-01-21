@@ -6,6 +6,7 @@ namespace Repository
     public interface ICustomerRepository
     {
         Task<CustomerEntity> CreateCustomer(CustomerEntity customerEntity);
-        Task<CustomerEntity> GetCustomerById(int id);        
+        Task<CustomerEntity> GetCustomerById(int id);
+        Task UpdateCustomer(CustomerEntity customerEntity);
     }
 }
