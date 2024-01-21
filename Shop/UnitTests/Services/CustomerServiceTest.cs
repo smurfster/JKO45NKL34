@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Domain.Entities.Customer;
+using Domain.Persistence;
 
 namespace UnitTests.Services
 {
@@ -21,7 +22,9 @@ namespace UnitTests.Services
         const string email = "some@one.com";
         const string phoneNumber = "093242343";
         readonly CustomerEntity testCustomer = new CustomerEntity("name", "name@some.com", "7897890890");
-        
+
+        Mock<EFContext> dbContextMock = new Mock<EFContext>();
+
         CreateCustomerRequestModel createCustomerRequestModel = new CreateCustomerRequestModel()
         {
             Email = email,
@@ -33,15 +36,17 @@ namespace UnitTests.Services
         public async Task CreateCustomer_WhenCalled_InvokesCustomerRepository()
         {
             var customerRepositoryMock = new Mock<ICustomerRepository>();
+            
             customerRepositoryMock.Setup(x => x.CreateCustomer(It.IsAny<CustomerEntity>())).ReturnsAsync(new CustomerEntity(name, email, phoneNumber));
 
-            var customerService = new CustomerService(customerRepositoryMock.Object);
+            var customerService = new CustomerService(customerRepositoryMock.Object, dbContextMock.Object);
 
             var result = await customerService.CreateCustomer(createCustomerRequestModel);
 
             customerRepositoryMock.Verify(x => x.CreateCustomer(It.IsAny<CustomerEntity>()), Times.Once());
+            dbContextMock.Verify(x => x.SaveChanges(), Times.Once);
         }
-
+         
         [Fact]
         public async Task GetCustomer_WhenCalled_InvokesCustomerRepository()
         {
@@ -50,7 +55,7 @@ namespace UnitTests.Services
             var customerRepositoryMock = new Mock<ICustomerRepository>();
             customerRepositoryMock.Setup(x => x.GetCustomerById(id)).ReturnsAsync(testCustomer);
 
-            var customerService = new CustomerService(customerRepositoryMock.Object);
+            var customerService = new CustomerService(customerRepositoryMock.Object, dbContextMock.Object);
 
             var result = await customerService.GetCustomer(id);
 
@@ -64,7 +69,7 @@ namespace UnitTests.Services
             var customerRepositoryMock = new Mock<ICustomerRepository>();
             customerRepositoryMock.Setup(x => x.GetCustomerById(id)).ReturnsAsync(testCustomer);
 
-            var customerService = new CustomerService(customerRepositoryMock.Object);
+            var customerService = new CustomerService(customerRepositoryMock.Object, dbContextMock.Object);
 
             var result = await customerService.GetCustomer(id);
 
@@ -83,7 +88,7 @@ namespace UnitTests.Services
             var customerRepositoryMock = new Mock<ICustomerRepository>();
             customerRepositoryMock.Setup(x => x.GetCustomerById(id));
 
-            var customerService = new CustomerService(customerRepositoryMock.Object);
+            var customerService = new CustomerService(customerRepositoryMock.Object, dbContextMock.Object);
 
             var result = await customerService.GetCustomer(id);
 

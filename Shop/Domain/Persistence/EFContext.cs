@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Domain.Persistence
 {
-    public class EFContext : DbContext, IEFContext
+    public class EFContext : DbContext
     {
         public virtual DbSet<CustomerEntity> Customers { get; set; }
 

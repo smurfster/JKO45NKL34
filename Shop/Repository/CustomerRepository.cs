@@ -6,16 +6,17 @@ namespace Repository
 {
     public class CustomerRepository : ICustomerRepository
     {
-        private readonly IEFContext dbContext;
+        private readonly EFContext dbContext;
 
-        public CustomerRepository(IEFContext dbContext)
+        public CustomerRepository(EFContext dbContext)
         {
             this.dbContext = dbContext;
         }
 
-        public async Task CreateCustomer(CustomerEntity customerEntity)
+        public async Task<CustomerEntity> CreateCustomer(CustomerEntity customerEntity)
         {
-            throw new NotImplementedException();
+            var result = await dbContext.Customers.AddAsync(customerEntity);
+            return result.Entity;
         }
 
         public async Task<CustomerEntity> GetCustomerById(int id)

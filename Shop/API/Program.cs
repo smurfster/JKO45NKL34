@@ -9,7 +9,7 @@ builder.Services.AddTransient<ICustomerService, CustomerService>();
 
 builder.Services.AddTransient<ICustomerRepository, CustomerRepository>();
 
-builder.Services.AddDbContext<IEFContext, EFContext>();
+builder.Services.AddDbContext<EFContext>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
