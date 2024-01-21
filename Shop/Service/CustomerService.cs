@@ -17,7 +17,7 @@ namespace Service
             this.dbContext = dbContext;
         }
 
-        public async Task<int> CreateCustomer (CreateCustomerRequestModel createCustomerRequestModel)
+        public async Task<int> CreateCustomer (CreateUpdateCustomerRequestModel createCustomerRequestModel)
         {     
             var entity = createCustomerRequestModel.CreateCustomerRequestModelToCustomerEntity();
             var result = await customerRepository.CreateCustomer(entity);
@@ -35,6 +35,11 @@ namespace Service
             }
 
             return result.CustomerEntityToGetCustomerResponseModel();
+        }
+
+        public void Update(CreateUpdateCustomerRequestModel createCustomerRequestModel)
+        {
+            throw new NotImplementedException();
         }
     }
 }

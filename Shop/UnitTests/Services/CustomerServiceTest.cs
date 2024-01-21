@@ -25,7 +25,7 @@ namespace UnitTests.Services
 
         Mock<EFContext> dbContextMock = new Mock<EFContext>();
 
-        CreateCustomerRequestModel createCustomerRequestModel = new CreateCustomerRequestModel()
+        CreateUpdateCustomerRequestModel createCustomerRequestModel = new CreateUpdateCustomerRequestModel()
         {
             Email = email,
             Name = name,

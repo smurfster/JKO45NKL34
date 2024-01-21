@@ -32,10 +32,16 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateCustomerRequestModel customer)
+        public async Task<IActionResult> Create(CreateUpdateCustomerRequestModel customer)
         {
             var result = await customerService.CreateCustomer(customer);
             return CreatedAtAction(nameof(Get), result);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update(CreateUpdateCustomerRequestModel customer)
+        {
+            throw new NotImplementedException();
         }
     }
 }

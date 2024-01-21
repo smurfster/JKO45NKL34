@@ -1,6 +1,6 @@
 ﻿namespace Models
 {
-    public class CreateCustomerRequestModel
+    public class CreateUpdateCustomerRequestModel
     {        
         public string Name { get; set; }
         public string Email { get; set; }

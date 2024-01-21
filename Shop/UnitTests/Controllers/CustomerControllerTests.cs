@@ -14,7 +14,7 @@ namespace UnitTests.Controllers
         const string email = "some@one.com";
         const string phoneNumber = "093242343";
         
-        CreateCustomerRequestModel createCustomerRequestModel = new CreateCustomerRequestModel()
+        CreateUpdateCustomerRequestModel createCustomerRequestModel = new CreateUpdateCustomerRequestModel()
             {
                 Email = email,
                 Name = name,
@@ -22,11 +22,23 @@ namespace UnitTests.Controllers
             };
 
         [Fact]
+        public async Task Update_OnSuccess_ReturnStatusCode204()
+        {            
+            Mock<ICustomerService> customerServiceMock = SetupCustomerServiceMock();
+            customerServiceMock.Setup(x => x.Update(createCustomerRequestModel));
+
+            var sut = new CustomerController(customerServiceMock.Object);
+
+            var result = await sut.Update(createCustomerRequestModel) as NoContentResult;
+            result.StatusCode.Should().Be(204);
+        }
+
+        [Fact]
         public async Task Create_OnSuccess_ReturnStatusCode201()
         {
             int id = 23;
             Mock<ICustomerService> customerServiceMock = SetupCustomerServiceMock();
-            customerServiceMock.Setup(x => x.CreateCustomer(It.IsAny<CreateCustomerRequestModel>())).ReturnsAsync(id);
+            customerServiceMock.Setup(x => x.CreateCustomer(It.IsAny<CreateUpdateCustomerRequestModel>())).ReturnsAsync(id);
 
             var sut = new CustomerController(customerServiceMock.Object);
 
