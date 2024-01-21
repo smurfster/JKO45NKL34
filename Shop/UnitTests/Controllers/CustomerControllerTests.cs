@@ -29,7 +29,7 @@ namespace UnitTests.Controllers
 
             var sut = new CustomerController(customerServiceMock.Object);
 
-            var result = (StatusCodeResult)await sut.Get(1);
+            var result = (StatusCodeResult)await sut.Get(id);
 
             customerServiceMock.Verify(x => x.GetCustomer(id), Times.Once());
         }
