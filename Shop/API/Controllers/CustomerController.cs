@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Models;
 using Service;
 using System.Diagnostics;
 
@@ -27,6 +28,12 @@ namespace API.Controllers
             }
 
             return Ok(customer);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(CreateCustomerRequestModel customer)
+        {
+            throw new NotImplementedException();
         }
     }
 }

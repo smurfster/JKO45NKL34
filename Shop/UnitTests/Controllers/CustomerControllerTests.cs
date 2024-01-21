@@ -15,9 +15,29 @@ namespace UnitTests.Controllers
         const string phoneNumber = "093242343";
 
         [Fact]
+        public async Task Create_OnSuccess_ReturnStatusCode201()
+        {
+            var customer = new CreateCustomerRequestModel()
+            {
+                Email = email,
+                Name = name,
+                Phone = phoneNumber
+            };
+
+            Mock<ICustomerService> customerServiceMock = SetupGetCustomerServiceMock();
+
+            var sut = new CustomerController(customerServiceMock.Object);
+
+            var result = await sut.Create(customer) as OkObjectResult;
+
+            result.StatusCode.Should().Be(201);
+        }
+
+
+        [Fact]
         public async Task Get_OnSuccess_ReturnStatusCode200()
         {
-            Mock<ICustomerService> customerServiceMock = SetupCustomerServiceMock();
+            Mock<ICustomerService> customerServiceMock = SetupGetCustomerServiceMock();
 
             var sut = new CustomerController(customerServiceMock.Object);
 
@@ -29,7 +49,7 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task Get_OnSuccess_InvokesCustomerServiceExactlyOnce()
         {
-            Mock<ICustomerService> customerServiceMock = SetupCustomerServiceMock();
+            Mock<ICustomerService> customerServiceMock = SetupGetCustomerServiceMock();
 
             var sut = new CustomerController(customerServiceMock.Object);
 
@@ -41,7 +61,7 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task Get_OnSuccess_Return_Customer()
         {
-            Mock<ICustomerService> customerServiceMock = SetupCustomerServiceMock();
+            Mock<ICustomerService> customerServiceMock = SetupGetCustomerServiceMock();
 
             var sut = new CustomerController(customerServiceMock.Object);
 
@@ -74,7 +94,7 @@ namespace UnitTests.Controllers
             resultObj.StatusCode.Should().Be(404);            
         }
 
-        private static Mock<ICustomerService> SetupCustomerServiceMock()
+        private static Mock<ICustomerService> SetupGetCustomerServiceMock()
         {
             var customerServiceMock = new Mock<ICustomerService>();
 
