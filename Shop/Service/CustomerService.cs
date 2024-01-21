@@ -29,6 +29,7 @@ namespace Service
         {
             if (await customerRepository.DeleteCustomer(id))
             { 
+                dbContext.SaveChanges();
                 return true; 
             }
 
