@@ -13,30 +13,42 @@ namespace UnitTests.Controllers
         const string name = "Name";
         const string email = "some@one.com";
         const string phoneNumber = "093242343";
-
-        [Fact]
-        public async Task Create_OnSuccess_ReturnStatusCode201()
-        {
-            var customer = new CreateCustomerRequestModel()
+        
+        CreateCustomerRequestModel createCustomerRequestModel = new CreateCustomerRequestModel()
             {
                 Email = email,
                 Name = name,
                 Phone = phoneNumber
             };
 
-            Mock<ICustomerService> customerServiceMock = SetupGetCustomerServiceMock();
+        [Fact]
+        public async Task Create_OnSuccess_ReturnStatusCode201()
+        {
+            Mock<ICustomerService> customerServiceMock = SetupCustomerServiceMock();
 
             var sut = new CustomerController(customerServiceMock.Object);
 
-            var result = await sut.Create(customer) as StatusCodeResult;
+            var result = await sut.Create(createCustomerRequestModel) as StatusCodeResult;
             result.StatusCode.Should().Be(201);
+        }
+
+        [Fact]
+        public async Task Create_OnSuccess_InvokesCustomerServiceExactlyOnce()
+        {
+            Mock<ICustomerService> customerServiceMock = SetupCustomerServiceMock();
+
+            var sut = new CustomerController(customerServiceMock.Object);
+
+            var result = await sut.Create(createCustomerRequestModel);
+
+            customerServiceMock.Verify(x => x.CreateCustomer(createCustomerRequestModel), Times.Once());
         }
 
 
         [Fact]
         public async Task Get_OnSuccess_ReturnStatusCode200()
         {
-            Mock<ICustomerService> customerServiceMock = SetupGetCustomerServiceMock();
+            Mock<ICustomerService> customerServiceMock = SetupCustomerServiceMock();
 
             var sut = new CustomerController(customerServiceMock.Object);
 
@@ -48,7 +60,7 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task Get_OnSuccess_InvokesCustomerServiceExactlyOnce()
         {
-            Mock<ICustomerService> customerServiceMock = SetupGetCustomerServiceMock();
+            Mock<ICustomerService> customerServiceMock = SetupCustomerServiceMock();
 
             var sut = new CustomerController(customerServiceMock.Object);
 
@@ -60,7 +72,7 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task Get_OnSuccess_Return_Customer()
         {
-            Mock<ICustomerService> customerServiceMock = SetupGetCustomerServiceMock();
+            Mock<ICustomerService> customerServiceMock = SetupCustomerServiceMock();
 
             var sut = new CustomerController(customerServiceMock.Object);
 
@@ -93,7 +105,7 @@ namespace UnitTests.Controllers
             resultObj.StatusCode.Should().Be(404);            
         }
 
-        private static Mock<ICustomerService> SetupGetCustomerServiceMock()
+        private Mock<ICustomerService> SetupCustomerServiceMock()
         {
             var customerServiceMock = new Mock<ICustomerService>();
 
@@ -107,6 +119,9 @@ namespace UnitTests.Controllers
                     Phone = phoneNumber
                 }
                 );
+
+            customerServiceMock
+                .Setup(service => service.CreateCustomer(createCustomerRequestModel));
 
             return customerServiceMock;
         }

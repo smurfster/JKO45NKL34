@@ -1,6 +1,7 @@
 ﻿using Models;
 using Repository;
 using Service.Mappers;
+using System.Runtime.InteropServices;
 
 namespace Service
 {
@@ -12,6 +13,11 @@ namespace Service
         {
             this.customerRepository = customerRepository;
         }
+
+        public async Task CreateCustomer (CreateCustomerRequestModel createCustomerRequestModel)
+        {            
+        }
+
         public async Task<GetCustomerResponseModel?> GetCustomer(int id)
         {
             var result = await customerRepository.GetCustomerById(id);
