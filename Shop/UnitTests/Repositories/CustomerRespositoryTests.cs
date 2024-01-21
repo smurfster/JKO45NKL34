@@ -22,7 +22,7 @@ namespace UnitTests.Repositories
         {
             CustomerEntity item;
 
-            var mockSet = SetupData(out item);            
+            var mockSet = SetupData(out item);
 
             var dbContextMock = new Mock<EFContext>();
             dbContextMock.Setup(c => c.Customers).ReturnsDbSet(mockSet.Object);
@@ -41,7 +41,7 @@ namespace UnitTests.Repositories
         {
             CustomerEntity item;
             
-            var mockSet = SetupData(out item);            
+            var mockSet = SetupData(out item);
 
             var dbContextMock = new Mock<EFContext>();
             dbContextMock.Setup(c => c.Customers).ReturnsDbSet(mockSet.Object);
