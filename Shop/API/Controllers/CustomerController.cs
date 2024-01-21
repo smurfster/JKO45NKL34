@@ -9,7 +9,7 @@ namespace API.Controllers
     {
         public async Task<IActionResult> Get(int id)
         {
-            throw new NotImplementedException();
+            return Ok();
         }
     }
 }

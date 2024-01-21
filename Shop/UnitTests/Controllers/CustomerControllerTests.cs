@@ -11,7 +11,7 @@ namespace UnitTests.Controllers
         {
             var sut = new CustomerController();
 
-            var result = (OkObjectResult)await sut.Get(1);
+            var result = (StatusCodeResult)await sut.Get(1);
 
             result.StatusCode.Should().Be(200);
         }
