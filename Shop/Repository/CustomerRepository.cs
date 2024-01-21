@@ -25,9 +25,17 @@ namespace Repository
             return result;
         }
 
-        public async Task UpdateCustomer(int id, CustomerEntity customerEntity)
+        public async Task<bool> UpdateCustomer(int id, CustomerEntity customerEntity)
         {
-            throw new NotImplementedException();
+            var customer = dbContext.Customers.FindAsync(id).Result;
+
+            if (customer == null) return false;
+
+            customer.UpdatePhone(customerEntity.Phone);
+            customer.UpdateEmail(customerEntity.Email);
+            customer.UpdateName(customerEntity.Name);
+
+            return true;
         }
     }
 }

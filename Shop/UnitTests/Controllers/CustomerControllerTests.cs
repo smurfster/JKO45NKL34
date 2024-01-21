@@ -34,6 +34,18 @@ namespace UnitTests.Controllers
         }
 
         [Fact]
+        public async Task Update_Fail_ReturnStatusCode404()
+        {
+            Mock<ICustomerService> customerServiceMock = SetupCustomerServiceMock();
+            customerServiceMock.Setup(x => x.Update(id, createCustomerRequestModel)).ReturnsAsync(false);
+
+            var sut = new CustomerController(customerServiceMock.Object);
+
+            var result = await sut.Update(id, createCustomerRequestModel) as NotFoundObjectResult;
+            result.StatusCode.Should().Be(404);
+        }
+
+        [Fact]
         public async Task Update_OnSuccess_InvokesCustomerServiceExactlyOnce()
         {
             Mock<ICustomerService> customerServiceMock = SetupCustomerServiceMock();
