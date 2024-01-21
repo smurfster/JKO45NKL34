@@ -47,6 +47,19 @@ namespace UnitTests.Controllers
         }
 
         [Fact]
+        public async Task Delete_Fail_ReturnStatusCode404()
+        {
+            Mock<ICustomerService> customerServiceMock = SetupCustomerServiceMock();
+            customerServiceMock.Setup(x => x.Delete(id)).ReturnsAsync(false);
+
+            var sut = new CustomerController(customerServiceMock.Object);
+
+            var result = await sut.Delete(id) as NotFoundResult;
+            
+            result.StatusCode.Should().Be(404);
+        }
+
+        [Fact]
         public async Task Update_OnSuccess_ReturnStatusCode204()
         {            
             Mock<ICustomerService> customerServiceMock = SetupCustomerServiceMock();
