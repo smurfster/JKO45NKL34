@@ -53,6 +53,7 @@ namespace API.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
+            await customerService.Delete(id);
             return Ok();
         }
     }
