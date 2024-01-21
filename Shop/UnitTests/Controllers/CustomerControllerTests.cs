@@ -38,11 +38,11 @@ namespace UnitTests.Controllers
             Mock<ICustomerService> customerServiceMock = SetupCustomerServiceMock();
             customerServiceMock.Setup(x => x.Delete(id)).ReturnsAsync(true);
 
-            customerServiceMock.Verify(x => x.Delete(id), Times.Once);
-
             var sut = new CustomerController(customerServiceMock.Object);
 
             var result = await sut.Delete(id) as OkResult;
+
+            customerServiceMock.Verify(x => x.Delete(id), Times.Once);
             result.StatusCode.Should().Be(200);
         }
 
