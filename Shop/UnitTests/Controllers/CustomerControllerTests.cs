@@ -22,7 +22,7 @@ namespace UnitTests.Controllers
             };
 
         [Fact]
-        public async Task Update_OnSuccess_DeleteReturnOK()
+        public async Task Delete_OnSuccess_ReturnOK()
         {
             Mock<ICustomerService> customerServiceMock = SetupCustomerServiceMock();
             //customerServiceMock.Setup(x => x.Delete(id)).ReturnsAsync(true);
