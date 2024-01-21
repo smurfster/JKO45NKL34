@@ -10,7 +10,7 @@ namespace UnitTests.Controllers
     public class CustomerControllerTests
     {
         [Fact]
-        public async void Get_OnSuccess_ReturnStatusCode200()
+        public async Task Get_OnSuccess_ReturnStatusCode200()
         {
             var customerServiceMock = new Mock<ICustomerService>();
             var sut = new CustomerController(customerServiceMock.Object);
@@ -21,7 +21,7 @@ namespace UnitTests.Controllers
         }
 
         [Fact]
-        public async void Get_OnSuccess_InvokesCustomerServiceExactlyOnce()
+        public async Task Get_OnSuccess_InvokesCustomerServiceExactlyOnce()
         {
             const int id = 1;
             var customerServiceMock = new Mock<ICustomerService>();
@@ -35,7 +35,7 @@ namespace UnitTests.Controllers
         }
 
         [Fact]
-        public async void Get_OnSuccess_Return_Customer()
+        public async Task Get_OnSuccess_Return_Customer()
         {
             const int id = 1;
             const string name = "Name";
@@ -68,6 +68,25 @@ namespace UnitTests.Controllers
             customer.Id.Should().Be(id);
             customer.Name.Should().Be(name);
             customer.Phone.Should().Be(phoneNumber);
+        }
+
+        [Fact]
+        public async Task Get_OnNoCustomerFound_Return()
+        {
+            const int id = 1;            
+
+            var customerServiceMock = new Mock<ICustomerService>();
+
+            customerServiceMock
+                .Setup(service => service.GetCustomer(id));
+
+            var sut = new CustomerController(customerServiceMock.Object);
+
+            var result = await sut.Get(id);
+
+            result.Should().BeOfType<OkObjectResult>();
+            var resultObj = (OkObjectResult)result;
+            resultObj.StatusCode.Should().Be(404);            
         }
     }
 }
