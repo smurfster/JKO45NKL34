@@ -88,7 +88,7 @@ namespace UnitTests.Controllers
         }
 
         [Fact]
-        public async Task Get_OnNoCustomerFound_Return()
+        public async Task Get_OnNoCustomerFound_Return404()
         {
             const int id = 1;            
 
