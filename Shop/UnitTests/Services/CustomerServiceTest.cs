@@ -51,5 +51,19 @@ namespace UnitTests.Services
             result.Email.Should().Be(testCustomer.Email);
         }
 
+        [Fact]
+        public async Task GetCustomer_OnDoesNotExit_Returns_Null()
+        {
+            const int id = 1;
+
+            var customerRepositoryMock = new Mock<ICustomerRepository>();
+            customerRepositoryMock.Setup(x => x.GetCustomerById(id));
+
+            var customerService = new CustomerService(customerRepositoryMock.Object);
+
+            var result = await customerService.GetCustomer(id);
+
+            result.Should().BeNull();
+        }
     }
 }
