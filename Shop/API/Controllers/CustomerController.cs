@@ -53,7 +53,7 @@ namespace API.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
-            throw new NotImplementedException();
+            return Ok();
         }
     }
 }
