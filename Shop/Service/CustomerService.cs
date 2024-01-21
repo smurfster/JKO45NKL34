@@ -27,6 +27,7 @@ namespace Service
 
         public async Task<bool> Delete(int id)
         {
+            await customerRepository.DeleteCustomer(id);
             return true;
         }
 
