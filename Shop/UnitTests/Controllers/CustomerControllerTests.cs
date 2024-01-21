@@ -34,6 +34,19 @@ namespace UnitTests.Controllers
         }
 
         [Fact]
+        public async Task Update_OnSuccess_InvokesCustomerServiceExactlyOnce()
+        {
+            Mock<ICustomerService> customerServiceMock = SetupCustomerServiceMock();
+            customerServiceMock.Setup(x => x.Update(createCustomerRequestModel));
+
+            var sut = new CustomerController(customerServiceMock.Object);
+
+            var result = await sut.Update(createCustomerRequestModel);
+
+            customerServiceMock.Verify(x => x.Update(createCustomerRequestModel), Times.Once());
+        }
+
+        [Fact]
         public async Task Create_OnSuccess_ReturnStatusCode201()
         {
             int id = 23;
