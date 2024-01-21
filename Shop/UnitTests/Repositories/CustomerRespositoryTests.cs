@@ -42,6 +42,29 @@ namespace UnitTests.Repositories
             result.Name.Should().Be(item.Name);
         }
 
+        [Fact]
+        public async Task GetCustomerById_NotFound_Return_Null()
+        {
+            CustomerEntity item;
+            IQueryable<CustomerEntity> data;
+            SetupData(out item, out data);
+
+            var mockSet = new Mock<DbSet<CustomerEntity>>();
+            mockSet.As<IQueryable<CustomerEntity>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<CustomerEntity>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<CustomerEntity>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<CustomerEntity>>().Setup(m => m.GetEnumerator()).Returns(() => data.GetEnumerator());
+
+            var dbContextMock = new Mock<EFContext>();
+            dbContextMock.Setup(c => c.Customers).ReturnsDbSet(mockSet.Object);
+
+            var sut = new CustomerRepository(dbContextMock.Object);
+
+            var result = await sut.GetCustomerById(item.Id+10);
+
+            result.Should().BeNull();
+        }
+
         private static void SetupData(out CustomerEntity item, out IQueryable<CustomerEntity> data)
         {
             item = new CustomerEntity("bob", "steve@something.com", "3242342");
