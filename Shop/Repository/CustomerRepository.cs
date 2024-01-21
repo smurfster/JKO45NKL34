@@ -19,6 +19,11 @@ namespace Repository
             return result.Entity;
         }
 
+        public Task<bool> DeleteCustomer(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<CustomerEntity> GetCustomerById(int id)
         {
             var result = await dbContext.Customers.SingleOrDefaultAsync(o => o.Id == id);

@@ -33,6 +33,21 @@ namespace UnitTests.Services
         };
 
         [Fact]
+        public async Task Delete_WhenCalled_InvokesCustomerRepository()
+        {
+            const int id = 1;
+
+            var customerRepositoryMock = new Mock<ICustomerRepository>();
+            customerRepositoryMock.Setup(x => x.DeleteCustomer(id)).ReturnsAsync(true);
+
+            var customerService = new CustomerService(customerRepositoryMock.Object, dbContextMock.Object);
+
+            var result = await customerService.GetCustomer(id);
+
+            customerRepositoryMock.Verify(x => x.DeleteCustomer(id), Times.Once());
+        }
+
+        [Fact]
         public async Task UpdateCustomer_WhenCalled_InvokesCustomerRepositoryAndDbContextMock()
         {
             var customerRepositoryMock = new Mock<ICustomerRepository>();
