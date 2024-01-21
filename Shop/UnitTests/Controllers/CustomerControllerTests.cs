@@ -9,26 +9,15 @@ namespace UnitTests.Controllers
 {
     public class CustomerControllerTests
     {
+        const int id = 1;
+        const string name = "Name";
+        const string email = "some@one.com";
+        const string phoneNumber = "093242343";
+
         [Fact]
         public async Task Get_OnSuccess_ReturnStatusCode200()
         {
-            const int id = 1;
-            const string name = "Name";
-            const string email = "some@one.com";
-            const string phoneNumber = "093242343";
-
-            var customerServiceMock = new Mock<ICustomerService>();
-
-            customerServiceMock
-                .Setup(service => service.GetCustomer(id))
-                .ReturnsAsync(new GetCustomerResponseModel()
-                    {
-                        Id = id,
-                        Name = name,
-                        Email = email,
-                        Phone = phoneNumber
-                    }
-                );
+            Mock<ICustomerService> customerServiceMock = SetupCustomerServiceMock();
 
             var sut = new CustomerController(customerServiceMock.Object);
 
@@ -40,9 +29,7 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task Get_OnSuccess_InvokesCustomerServiceExactlyOnce()
         {
-            const int id = 1;
-            var customerServiceMock = new Mock<ICustomerService>();
-            customerServiceMock.Setup(service => service.GetCustomer(id)).ReturnsAsync(new GetCustomerResponseModel());
+            Mock<ICustomerService> customerServiceMock = SetupCustomerServiceMock();
 
             var sut = new CustomerController(customerServiceMock.Object);
 
@@ -54,23 +41,7 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task Get_OnSuccess_Return_Customer()
         {
-            const int id = 1;
-            const string name = "Name";
-            const string email = "some@one.com";
-            const string phoneNumber = "093242343";
-
-            var customerServiceMock = new Mock<ICustomerService>();
-            
-            customerServiceMock
-                .Setup(service => service.GetCustomer(id))
-                .ReturnsAsync(new GetCustomerResponseModel() 
-                    {
-                        Id = id,
-                        Name = name,
-                        Email = email,
-                        Phone = phoneNumber
-                    }
-                );
+            Mock<ICustomerService> customerServiceMock = SetupCustomerServiceMock();
 
             var sut = new CustomerController(customerServiceMock.Object);
 
@@ -79,23 +50,20 @@ namespace UnitTests.Controllers
             result.Should().BeOfType<OkObjectResult>();
             var resultObj = (OkObjectResult)result;
             resultObj.Value.Should().BeOfType<GetCustomerResponseModel>();
-            var customer = resultObj.Value as GetCustomerResponseModel ;
+            var customer = resultObj.Value as GetCustomerResponseModel;
             customer.Should().NotBeNull();
             customer.Email.Should().Be(email);
             customer.Id.Should().Be(id);
             customer.Name.Should().Be(name);
             customer.Phone.Should().Be(phoneNumber);
-        }
+        }        
 
         [Fact]
-        public async Task Get_OnNoCustomerFound_Return404()
+        public async Task Get_OnNoCustomerFound_ReturnStatusCode404()
         {
-            const int id = 1;            
-
             var customerServiceMock = new Mock<ICustomerService>();
 
-            customerServiceMock
-                .Setup(service => service.GetCustomer(id));
+            customerServiceMock.Setup(service => service.GetCustomer(id));
 
             var sut = new CustomerController(customerServiceMock.Object);
 
@@ -104,6 +72,24 @@ namespace UnitTests.Controllers
             result.Should().BeOfType<NotFoundResult>();
             var resultObj = (NotFoundResult)result;
             resultObj.StatusCode.Should().Be(404);            
+        }
+
+        private static Mock<ICustomerService> SetupCustomerServiceMock()
+        {
+            var customerServiceMock = new Mock<ICustomerService>();
+
+            customerServiceMock
+                .Setup(service => service.GetCustomer(id))
+                .ReturnsAsync(new GetCustomerResponseModel()
+                {
+                    Id = id,
+                    Name = name,
+                    Email = email,
+                    Phone = phoneNumber
+                }
+                );
+
+            return customerServiceMock;
         }
     }
 }
