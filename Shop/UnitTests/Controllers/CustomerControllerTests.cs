@@ -84,8 +84,8 @@ namespace UnitTests.Controllers
 
             var result = await sut.Get(id);
 
-            result.Should().BeOfType<OkObjectResult>();
-            var resultObj = (OkObjectResult)result;
+            result.Should().BeOfType<NotFoundResult>();
+            var resultObj = (NotFoundResult)result;
             resultObj.StatusCode.Should().Be(404);            
         }
     }
