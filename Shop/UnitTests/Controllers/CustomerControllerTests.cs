@@ -12,10 +12,27 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task Get_OnSuccess_ReturnStatusCode200()
         {
+            const int id = 1;
+            const string name = "Name";
+            const string email = "some@one.com";
+            const string phoneNumber = "093242343";
+
             var customerServiceMock = new Mock<ICustomerService>();
+
+            customerServiceMock
+                .Setup(service => service.GetCustomer(id))
+                .ReturnsAsync(new GetCustomerResponseModel()
+                    {
+                        Id = id,
+                        Name = name,
+                        Email = email,
+                        Phone = phoneNumber
+                    }
+                );
+
             var sut = new CustomerController(customerServiceMock.Object);
 
-            var result = (OkObjectResult)await sut.Get(1);
+            var result = await sut.Get(id) as OkObjectResult;
 
             result.StatusCode.Should().Be(200);
         }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service;
+using System.Diagnostics;
 
 namespace API.Controllers
 {
@@ -19,6 +20,12 @@ namespace API.Controllers
         public async Task<IActionResult> Get(int id)
         {
             var customer = await customerService.GetCustomer(id);
+
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
             return Ok(customer);
         }
     }
