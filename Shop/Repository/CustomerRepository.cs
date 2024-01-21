@@ -13,6 +13,11 @@ namespace Repository
             this.dbContext = dbContext;
         }
 
+        public async Task CreateCustomer(CustomerEntity customerEntity)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<CustomerEntity> GetCustomerById(int id)
         {
             var result = await dbContext.Customers.SingleOrDefaultAsync(o => o.Id == id);

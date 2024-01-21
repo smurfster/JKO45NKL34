@@ -14,8 +14,9 @@ namespace Service
             this.customerRepository = customerRepository;
         }
 
-        public async Task CreateCustomer (CreateCustomerRequestModel createCustomerRequestModel)
+        public async Task<int> CreateCustomer (CreateCustomerRequestModel createCustomerRequestModel)
         {            
+            throw new NotImplementedException();
         }
 
         public async Task<GetCustomerResponseModel?> GetCustomer(int id)

@@ -16,7 +16,31 @@ namespace UnitTests.Services
 {
     public class CustomerServiceTest
     {
+        const int id = 1;
+        const string name = "Name";
+        const string email = "some@one.com";
+        const string phoneNumber = "093242343";
         readonly CustomerEntity testCustomer = new CustomerEntity("name", "name@some.com", "7897890890");
+        
+        CreateCustomerRequestModel createCustomerRequestModel = new CreateCustomerRequestModel()
+        {
+            Email = email,
+            Name = name,
+            Phone = phoneNumber
+        };
+
+        [Fact]
+        public async Task CreateCustomer_WhenCalled_InvokesCustomerRepository()
+        {
+            var customerRepositoryMock = new Mock<ICustomerRepository>();
+            customerRepositoryMock.Setup(x => x.CreateCustomer(testCustomer));
+
+            var customerService = new CustomerService(customerRepositoryMock.Object);
+
+            var result = await customerService.CreateCustomer(createCustomerRequestModel);
+
+            customerRepositoryMock.Verify(x => x.GetCustomerById(id), Times.Once());
+        }
 
         [Fact]
         public async Task GetCustomer_WhenCalled_InvokesCustomerRepository()
