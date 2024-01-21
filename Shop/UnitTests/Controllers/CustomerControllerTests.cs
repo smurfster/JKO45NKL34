@@ -24,12 +24,15 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task Create_OnSuccess_ReturnStatusCode201()
         {
+            int id = 23
             Mock<ICustomerService> customerServiceMock = SetupCustomerServiceMock();
+            customerServiceMock.Setup(x => x.CreateCustomer(It.IsAny<CreateCustomerRequestModel>())).ReturnsAsync(id);
 
             var sut = new CustomerController(customerServiceMock.Object);
 
-            var result = await sut.Create(createCustomerRequestModel) as StatusCodeResult;
+            var result = await sut.Create(createCustomerRequestModel) as CreatedAtActionResult;
             result.StatusCode.Should().Be(201);
+            result.Value.Should().Be(id);
         }
 
         [Fact]

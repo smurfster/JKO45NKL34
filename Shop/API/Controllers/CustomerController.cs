@@ -34,8 +34,8 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateCustomerRequestModel customer)
         {
-            await customerService.CreateCustomer(customer);
-            return StatusCode(StatusCodes.Status201Created);
+            var result = await customerService.CreateCustomer(customer);
+            return CreatedAtAction(nameof(Get), result);
         }
     }
 }
