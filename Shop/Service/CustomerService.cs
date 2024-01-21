@@ -12,9 +12,14 @@ namespace Service
         {
             this.customerRepository = customerRepository;
         }
-        public async Task<GetCustomerResponseModel> GetCustomer(int id)
+        public async Task<GetCustomerResponseModel?> GetCustomer(int id)
         {
             var result = await customerRepository.GetCustomerById(id);
+
+            if (result == null)
+            {
+                return null;
+            }
 
             return result.CustomerEntityToGetCustomerResponseModel();
         }
