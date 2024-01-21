@@ -64,6 +64,21 @@ namespace UnitTests.Services
         }
 
         [Fact]
+        public async Task Delete_NotFound_ReturnsFalse()
+        {
+            const int id = 1;
+
+            var customerRepositoryMock = new Mock<ICustomerRepository>();
+            customerRepositoryMock.Setup(x => x.DeleteCustomer(id)).ReturnsAsync(false);
+
+            var customerService = new CustomerService(customerRepositoryMock.Object, dbContextMock.Object);
+
+            var result = await customerService.Delete(id);
+
+            result.Should().Be(false);
+        }
+
+        [Fact]
         public async Task UpdateCustomer_WhenCalled_InvokesCustomerRepositoryAndDbContextMock()
         {
             var customerRepositoryMock = new Mock<ICustomerRepository>();
