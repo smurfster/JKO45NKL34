@@ -43,7 +43,7 @@ namespace UnitTests.Services
 
             var customerService = new CustomerService(customerRepositoryMock.Object, dbContextMock.Object);
 
-            var result = await customerService.GetCustomer(id);
+            var result = await customerService.Delete(id);
 
             customerRepositoryMock.Verify(x => x.DeleteCustomer(id), Times.Once());
         }
