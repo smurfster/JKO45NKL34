@@ -6,6 +6,6 @@ namespace Service
     {
         Task<int> CreateCustomer (CreateUpdateCustomerRequestModel createCustomerRequestModel);
         Task<GetCustomerResponseModel> GetCustomer(int id);
-        void Update(CreateUpdateCustomerRequestModel createCustomerRequestModel);
+        Task Update(CreateUpdateCustomerRequestModel createCustomerRequestModel);
     }
 }

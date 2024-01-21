@@ -37,7 +37,7 @@ namespace Service
             return result.CustomerEntityToGetCustomerResponseModel();
         }
 
-        public void Update(CreateUpdateCustomerRequestModel createCustomerRequestModel)
+        public async Task Update(CreateUpdateCustomerRequestModel createCustomerRequestModel)
         {
             throw new NotImplementedException();
         }

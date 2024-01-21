@@ -41,7 +41,8 @@ namespace API.Controllers
         [HttpPut]
         public async Task<IActionResult> Update(CreateUpdateCustomerRequestModel customer)
         {
-            throw new NotImplementedException();
+            await customerService.Update(customer);
+            return NoContent();
         }
     }
 }
