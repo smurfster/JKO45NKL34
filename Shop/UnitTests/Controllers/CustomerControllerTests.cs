@@ -22,6 +22,18 @@ namespace UnitTests.Controllers
             };
 
         [Fact]
+        public async Task Update_OnSuccess_DeleteReturnOK()
+        {
+            Mock<ICustomerService> customerServiceMock = SetupCustomerServiceMock();
+            //customerServiceMock.Setup(x => x.Delete(id)).ReturnsAsync(true);
+
+            var sut = new CustomerController(customerServiceMock.Object);
+
+            var result = await sut.Delete(id) as OkResult;
+            result.StatusCode.Should().Be(200);
+        }
+
+        [Fact]
         public async Task Update_OnSuccess_ReturnStatusCode204()
         {            
             Mock<ICustomerService> customerServiceMock = SetupCustomerServiceMock();

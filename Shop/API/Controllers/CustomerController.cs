@@ -49,5 +49,11 @@ namespace API.Controllers
 
             return NotFound();
         }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
