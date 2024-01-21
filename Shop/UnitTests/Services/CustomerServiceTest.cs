@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Domain.Entities.Customer;
 using Domain.Persistence;
+using Microsoft.AspNetCore.Mvc;
 
 namespace UnitTests.Services
 {
@@ -45,6 +46,21 @@ namespace UnitTests.Services
             var result = await customerService.GetCustomer(id);
 
             customerRepositoryMock.Verify(x => x.DeleteCustomer(id), Times.Once());
+        }
+
+        [Fact]
+        public async Task Delete_OnSuccess_ReturnsTrue()
+        {
+            const int id = 1;
+
+            var customerRepositoryMock = new Mock<ICustomerRepository>();
+            customerRepositoryMock.Setup(x => x.DeleteCustomer(id)).ReturnsAsync(true);
+
+            var customerService = new CustomerService(customerRepositoryMock.Object, dbContextMock.Object);
+
+            var result = await customerService.Delete(id);
+
+            result.Should().Be(true);
         }
 
         [Fact]
