@@ -4,6 +4,6 @@ namespace Service
 {
     public interface IProductService
     {
-        Task<bool> CreateProduct(CreateUpdateProductRequestModel model);
+        Task<int> CreateProduct(CreateUpdateProductRequestModel model);
     }
 }

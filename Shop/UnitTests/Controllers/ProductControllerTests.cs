@@ -10,10 +10,10 @@ namespace UnitTests.Controllers
 {
     public class ProductControllerTests
     {
+        const int id = 13;
         CreateUpdateProductRequestModel model = new CreateUpdateProductRequestModel()
         {
             Description = "description",
-            Id = 1,
             Name = "name",
             Sku = "sku"
         };
@@ -27,6 +27,19 @@ namespace UnitTests.Controllers
 
             var result = await sut.Create(model) as CreatedAtActionResult;
             result.StatusCode.Should().Be(201);
+        }
+
+        [Fact]
+        public async Task Create_OnSuccess_ReturnId()
+        {
+            var productServiceMock = SetupProductServiceMock();
+            productServiceMock.Setup(x => x.CreateProduct(model)).ReturnsAsync(id);
+
+            var sut = new ProductController(productServiceMock.Object);
+
+            var result = await sut.Create(model) as CreatedAtActionResult;
+
+            result.Value.Should().Be(id);
         }
 
         [Fact]
