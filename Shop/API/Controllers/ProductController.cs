@@ -22,6 +22,7 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateUpdateProductRequestModel product)
         {
+            await productService.CreateProduct(product);
             return CreatedAtAction("get", null);
         }
     }
