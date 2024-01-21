@@ -19,9 +19,14 @@ namespace Repository
             return result.Entity;
         }
 
-        public Task<bool> DeleteCustomer(int id)
+        public async Task<bool> DeleteCustomer(int id)
         {
-            throw new NotImplementedException();
+            var customer = await dbContext.Customers.FindAsync(id);
+            
+            if (customer == null) { return false; }
+            
+            dbContext.Customers.Remove(customer);
+            return true;
         }
 
         public async Task<CustomerEntity> GetCustomerById(int id)
