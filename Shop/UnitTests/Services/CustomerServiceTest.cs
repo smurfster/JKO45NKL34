@@ -34,7 +34,7 @@ namespace UnitTests.Services
         };
 
         [Fact]
-        public async Task Delete_WhenCalled_InvokesCustomerRepository()
+        public async Task Delete_WhenCalled_InvokesCustomerRepositoryAndDbContextSave()
         {
             const int id = 1;
 
@@ -46,6 +46,7 @@ namespace UnitTests.Services
             var result = await customerService.Delete(id);
 
             customerRepositoryMock.Verify(x => x.DeleteCustomer(id), Times.Once());
+            dbContextMock.Verify(x => x.SaveChanges(), Times.Once);
         }
 
         [Fact]
