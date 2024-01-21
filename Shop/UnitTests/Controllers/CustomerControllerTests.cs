@@ -15,7 +15,7 @@ namespace UnitTests.Controllers
             var customerServiceMock = new Mock<ICustomerService>();
             var sut = new CustomerController(customerServiceMock.Object);
 
-            var result = (StatusCodeResult)await sut.Get(1);
+            var result = (OkObjectResult)await sut.Get(1);
 
             result.StatusCode.Should().Be(200);
         }
@@ -25,13 +25,49 @@ namespace UnitTests.Controllers
         {
             const int id = 1;
             var customerServiceMock = new Mock<ICustomerService>();
-            customerServiceMock.Setup(service => service.GetCustomer(id)).ReturnsAsync(new GetUserResponseModel());
+            customerServiceMock.Setup(service => service.GetCustomer(id)).ReturnsAsync(new GetCustomerResponseModel());
 
             var sut = new CustomerController(customerServiceMock.Object);
 
-            var result = (StatusCodeResult)await sut.Get(id);
+            var result = await sut.Get(id);
 
             customerServiceMock.Verify(x => x.GetCustomer(id), Times.Once());
+        }
+
+        [Fact]
+        public async void Get_OnSuccess_Return_Customer()
+        {
+            const int id = 1;
+            const string name = "Name";
+            const string email = "some@one.com";
+            const string phoneNumber = "093242343";
+
+            var customerServiceMock = new Mock<ICustomerService>();
+            
+            customerServiceMock
+                .Setup(service => service.GetCustomer(id))
+                .ReturnsAsync(new GetCustomerResponseModel() 
+                    {
+                        Id = id,
+                        Name = name,
+                        Email = email,
+                        Phone = phoneNumber
+                    }
+                );
+
+            var sut = new CustomerController(customerServiceMock.Object);
+
+            var result = await sut.Get(id);
+
+            result.Should().BeOfType<OkObjectResult>();
+            var resultObj = (OkObjectResult)result;
+            resultObj.Value.Should().BeOfType<GetCustomerResponseModel>();
+            var customer = resultObj.Value as GetCustomerResponseModel ;
+            customer.Should().NotBeNull();
+            customer.Email.Should().Be(email);
+            customer.Id.Should().Be(id);
+            customer.Name.Should().Be(name);
+            customer.Phone.Should().Be(phoneNumber);
         }
     }
 }

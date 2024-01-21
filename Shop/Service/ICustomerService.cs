@@ -4,6 +4,6 @@ namespace Service
 {
     public interface ICustomerService
     {
-        Task<GetUserResponseModel> GetCustomer(int id);
+        Task<GetCustomerResponseModel> GetCustomer(int id);
     }
 }
