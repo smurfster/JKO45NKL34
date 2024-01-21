@@ -15,8 +15,10 @@ namespace Service
         }
 
         public async Task<int> CreateCustomer (CreateCustomerRequestModel createCustomerRequestModel)
-        {            
-            throw new NotImplementedException();
+        {     
+            var entity = createCustomerRequestModel.CreateCustomerRequestModelToCustomerEntity();
+            var result = await customerRepository.CreateCustomer(entity);
+            return result.Id;
         }
 
         public async Task<GetCustomerResponseModel?> GetCustomer(int id)

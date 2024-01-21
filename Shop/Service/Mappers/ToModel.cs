@@ -21,5 +21,10 @@ namespace Service.Mappers
                 Phone = entity.Phone
             };
         }
+
+        internal static CustomerEntity CreateCustomerRequestModelToCustomerEntity(this CreateCustomerRequestModel model)
+        {
+            return new CustomerEntity(model.Name, model.Email, model.Phone);
+        }
     }
 }

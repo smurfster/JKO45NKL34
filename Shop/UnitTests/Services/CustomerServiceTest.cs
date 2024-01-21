@@ -33,13 +33,13 @@ namespace UnitTests.Services
         public async Task CreateCustomer_WhenCalled_InvokesCustomerRepository()
         {
             var customerRepositoryMock = new Mock<ICustomerRepository>();
-            customerRepositoryMock.Setup(x => x.CreateCustomer(testCustomer));
+            customerRepositoryMock.Setup(x => x.CreateCustomer(It.IsAny<CustomerEntity>())).ReturnsAsync(new CustomerEntity(name, email, phoneNumber));
 
             var customerService = new CustomerService(customerRepositoryMock.Object);
 
             var result = await customerService.CreateCustomer(createCustomerRequestModel);
 
-            customerRepositoryMock.Verify(x => x.GetCustomerById(id), Times.Once());
+            customerRepositoryMock.Verify(x => x.CreateCustomer(It.IsAny<CustomerEntity>()), Times.Once());
         }
 
         [Fact]
