@@ -24,7 +24,7 @@ namespace Service
             var product = await productRepository.CreateProduct(entity);
             
             dbContext.SaveChanges();
-            return -1;
+            return product.Id;
         }
     }
 }
