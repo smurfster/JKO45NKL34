@@ -26,6 +26,20 @@ namespace UnitTests.Controllers
             Name = "name",
             Sku = "sku"
         };
+        
+        [Fact]
+        public async Task Update_OnSuccess_ReturnStatusCode204()
+        {
+            var productServiceMock = SetupProductServiceMock();
+            productServiceMock
+                .Setup(x => x.GetProduct(id))
+                .ReturnsAsync(modelresp);
+
+            var sut = new ProductController(productServiceMock.Object);
+
+            var result = await sut.Update(id, model) as NoContentResult;
+            result.StatusCode.Should().Be(204);
+        }
 
         [Fact]
         public async Task Get_OnSuccess_Return_Product()

@@ -38,5 +38,11 @@ namespace API.Controllers
 
             return Ok(result);
         }
+
+        [HttpPut]
+        public async Task<IActionResult> Update([FromQuery] int id, CreateUpdateProductRequestModel product)
+        {
+           throw new NotImplementedException();
+        }
     }
 }
