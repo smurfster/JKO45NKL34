@@ -26,5 +26,10 @@ namespace Service
             dbContext.SaveChanges();
             return product.Id;
         }
+
+        public Task<GetProductResponseModel> GetProduct(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
