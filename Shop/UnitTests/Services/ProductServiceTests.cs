@@ -52,6 +52,7 @@ namespace UnitTests.Services
             var result = await sut.Update(id, model);
 
             returnEntity.IsError.Should().BeTrue();
+            result.Should().BeFalse();
         }
 
         [Fact]
