@@ -29,6 +29,8 @@ namespace Service
 
         public async Task<bool> Delete(int id)
         {
+            await productRepository.DeleteProduct(id);
+            dbContext.SaveChanges();
             return true;
         }
 
