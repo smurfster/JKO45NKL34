@@ -51,6 +51,21 @@ namespace UnitTests.Controllers
         }
 
         [Fact]
+        public async Task Get_OnNotFound_Return_Null()
+        {
+            var productServiceMock = SetupProductServiceMock();
+            productServiceMock
+                .Setup(x => x.GetProduct(id));
+
+            var sut = new ProductController(productServiceMock.Object);
+
+            var result = await sut.Get(id);
+                        
+            var resultObj = (OkObjectResult)result;
+            result.Should().BeNull();
+        }
+
+        [Fact]
         public async Task Get_OnSuccess_ReturnStatusCode200()
         {
             var productServiceMock = SetupProductServiceMock();
