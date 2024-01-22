@@ -42,8 +42,12 @@ namespace API.Controllers
         [HttpPut]
         public async Task<IActionResult> Update([FromQuery] int id, CreateUpdateProductRequestModel product)
         {
-            await productService.Update(id, product);
-            return NoContent();
+            if (await productService.Update(id, product))
+            {
+                return NoContent();
+            }
+
+            return NotFound();
         }
     }
 }
