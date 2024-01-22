@@ -31,6 +31,10 @@ namespace API.Controllers
         {
             var result = await productService.GetProduct(id);
 
+            if (result == null)
+            {
+                return NotFound();
+            }
 
             return Ok(result);
         }

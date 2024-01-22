@@ -60,9 +60,8 @@ namespace UnitTests.Controllers
             var sut = new ProductController(productServiceMock.Object);
 
             var result = await sut.Get(id);
-                        
-            var resultObj = (OkObjectResult)result;
-            result.Should().BeNull();
+
+            result.Should().BeOfType<NotFoundResult>();
         }
 
         [Fact]
