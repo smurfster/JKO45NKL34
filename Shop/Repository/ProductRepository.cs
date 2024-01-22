@@ -1,5 +1,6 @@
 ﻿using Domain.Entities.Product;
 using Domain.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository
 {
@@ -17,9 +18,10 @@ namespace Repository
             return result.Entity;
         }
 
-        public Task<ProductEntity> GetProduct(int id)
+        public async Task<ProductEntity> GetProduct(int id)
         {
-            throw new NotImplementedException();
+            var result = await dbContext.Products.SingleOrDefaultAsync(o => o.Id == id);
+            return result;
         }
     }
 }
