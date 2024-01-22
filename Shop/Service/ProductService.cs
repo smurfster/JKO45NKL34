@@ -27,6 +27,11 @@ namespace Service
             return product.Id;
         }
 
+        public async Task<bool> Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<GetProductResponseModel> GetProduct(int id)
         {
             var result = await productRepository.GetProduct(id);

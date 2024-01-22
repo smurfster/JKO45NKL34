@@ -39,6 +39,19 @@ namespace UnitTests.Controllers
         }
 
         [Fact]
+        public async Task Delete_OnSuccess_InvokesProductServiceExactlyOnce()
+        {
+            var productServiceMock = SetupProductServiceMock();
+
+            var sut = new ProductController(productServiceMock.Object);
+
+            var result = await sut.Delete(id) as OkResult;
+
+            productServiceMock.Verify(x => x.Delete(id), Times.Once);
+            result.StatusCode.Should().Be(200);
+        }
+
+        [Fact]
         public async Task Update_OnSuccess_ReturnStatusCode204()
         {
             var productServiceMock = SetupProductServiceMock();
