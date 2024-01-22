@@ -42,10 +42,11 @@ namespace UnitTests.Controllers
         public async Task Delete_OnSuccess_InvokesProductServiceExactlyOnce()
         {
             var productServiceMock = SetupProductServiceMock();
+            productServiceMock.Setup(x => x.Delete(id));
 
             var sut = new ProductController(productServiceMock.Object);
 
-            var result = await sut.Delete(id) as OkResult;
+            var result = await sut.Delete(id) as OkObjectResult;
 
             productServiceMock.Verify(x => x.Delete(id), Times.Once);
             result.StatusCode.Should().Be(200);
