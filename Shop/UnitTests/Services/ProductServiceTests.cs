@@ -22,6 +22,21 @@ namespace UnitTests.Services
         };
 
         [Fact]
+        public async Task GetCustomer_OnDoesNotExit_Returns_Null()
+        {
+            const int id = 1;
+
+            var repositoryMock = new Mock<IProductRepository>();
+            repositoryMock.Setup(x => x.GetProduct(id));
+
+            var customerService = new ProductService(repositoryMock.Object, dbContextMock.Object);
+
+            var result = await customerService.GetProduct(id);
+
+            result.Should().BeNull();
+        }
+
+        [Fact]
         public async Task CreateProduct_WhenCalled_InvokesCustomerRepositoryAndDbContextMock()
         {
             var repositoryMock = new Mock<IProductRepository>();
