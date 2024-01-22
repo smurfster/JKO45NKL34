@@ -29,7 +29,7 @@ namespace API.Controllers
         [HttpGet]
         public async Task<IActionResult> Get(int id)
         {
-            throw new NotImplementedException();
+            return Ok("ok");
         }
     }
 }
