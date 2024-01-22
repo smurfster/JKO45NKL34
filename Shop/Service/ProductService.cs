@@ -2,6 +2,8 @@
 using Domain.Persistence;
 using Models;
 using Repository;
+using Service.Mappers;
+using System.Runtime.InteropServices;
 
 namespace Service
 {
@@ -16,9 +18,13 @@ namespace Service
             this.productRepository = productRepository;
         }
 
-        public Task<int> CreateProduct(CreateUpdateProductRequestModel model)
+        public async Task<int> CreateProduct(CreateUpdateProductRequestModel model)
         {
-            throw new NotImplementedException();
+            var entity = model.CreateUpdateProductRequestModelToProductEntity();
+            var product = await productRepository.CreateProduct(entity);
+            
+            dbContext.SaveChanges();
+            return product.Id;
         }
     }
 }
