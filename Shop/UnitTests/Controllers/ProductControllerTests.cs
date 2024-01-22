@@ -57,6 +57,19 @@ namespace UnitTests.Controllers
         }
 
         [Fact]
+        public async Task Update_Fail_ReturnStatusCode404()
+        {
+            var productServiceMock = SetupProductServiceMock();
+            productServiceMock
+                .Setup(x => x.GetProduct(id));
+
+            var sut = new ProductController(productServiceMock.Object);
+            
+            var result = await sut.Update(id, model) as NotFoundResult;
+            result.StatusCode.Should().Be(404);
+        }
+
+        [Fact]
         public async Task Get_OnSuccess_Return_Product()
         {
             var productServiceMock = SetupProductServiceMock();
