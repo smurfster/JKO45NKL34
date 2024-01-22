@@ -41,7 +41,10 @@ namespace Service
 
         public async Task<bool> Update(int id, CreateUpdateProductRequestModel model)
         {
-            throw new NotImplementedException();
+            var entity = model.CreateUpdateProductRequestModelToProductEntity();
+            await productRepository.UpdateProduct(id, entity);
+            dbContext.SaveChanges();
+            return true;
         }
     }
 }

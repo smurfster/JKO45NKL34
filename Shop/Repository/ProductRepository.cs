@@ -1,5 +1,6 @@
 ﻿using Domain.Entities.Product;
 using Domain.Persistence;
+using ErrorOr;
 using Microsoft.EntityFrameworkCore;
 
 namespace Repository
@@ -22,6 +23,11 @@ namespace Repository
         {
             var result = await dbContext.Products.SingleOrDefaultAsync(o => o.Id == id);
             return result;
+        }
+
+        public async Task<ErrorOr<ProductEntity>> UpdateProduct(int id, ProductEntity productEntity)
+        {
+            throw new NotImplementedException();
         }
     }
 }

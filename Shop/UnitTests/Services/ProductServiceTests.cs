@@ -1,6 +1,7 @@
 ﻿using Domain.Entities.Customer;
 using Domain.Entities.Product;
 using Domain.Persistence;
+using ErrorOr;
 using FluentAssertions;
 using Models;
 using Moq;
@@ -12,6 +13,7 @@ namespace UnitTests.Services
 {
     public class ProductServiceTests
     {
+        const int id = 134;
         ProductEntity entity = new("name", "desc", SKU.Create("sku123")!);
         Mock<EFContext> dbContextMock = new Mock<EFContext>();
         CreateUpdateProductRequestModel model = new CreateUpdateProductRequestModel()
@@ -22,10 +24,39 @@ namespace UnitTests.Services
         };
 
         [Fact]
-        public async Task GetCustomer_OnDoesNotExit_Returns_Null()
+        public async Task UpdateProduct_WhenCalled_InvokesProductRepositoryAndDbContextMock()
         {
-            const int id = 1;
+            var repositoryMock = new Mock<IProductRepository>();
 
+            repositoryMock.Setup(x => x.UpdateProduct(id, It.IsAny<ProductEntity>()));
+
+            var customerService = new ProductService(repositoryMock.Object, dbContextMock.Object);
+
+            await customerService.Update(id, model) ;
+
+            repositoryMock.Verify(x => x.UpdateProduct(id, It.IsAny<ProductEntity>()), Times.Once());
+            dbContextMock.Verify(x => x.SaveChanges(), Times.Once);
+        }
+
+        [Fact]
+        public async Task UpdateProduct_OnNotFound_ReturnsFalse()
+        {
+            var repositoryMock = new Mock<IProductRepository>();
+            ErrorOr<ProductEntity> returnEntity = Error.NotFound();
+            
+            repositoryMock.Setup(x => x.UpdateProduct(id, It.IsAny<ProductEntity>()))
+                .ReturnsAsync(returnEntity);
+
+            var sut = new ProductService(repositoryMock.Object, dbContextMock.Object);
+
+            var result = await sut.Update(id, model);
+
+            returnEntity.IsError.Should().BeTrue();
+        }
+
+        [Fact]
+        public async Task GetProduct_OnDoesNotExit_Returns_Null()
+        {
             var repositoryMock = new Mock<IProductRepository>();
             repositoryMock.Setup(x => x.GetProduct(id));
 
@@ -52,7 +83,7 @@ namespace UnitTests.Services
         }
 
         [Fact]
-        public async Task CreateProduct_WhenCalled_InvokesCustomerRepositoryAndDbContextMock()
+        public async Task CreateProduct_WhenCalled_InvokesProductRepositoryAndDbContextMock()
         {
             var repositoryMock = new Mock<IProductRepository>();
 
@@ -68,7 +99,7 @@ namespace UnitTests.Services
             dbContextMock.Verify(x => x.SaveChanges(), Times.Once);
         }
 
-        public async Task GetCustomer_OnSuccess_Returns_Customer()
+        public async Task GetProduct_OnSuccess_Returns_Product()
         {
             const int id = 1;
 
