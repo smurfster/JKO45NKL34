@@ -29,7 +29,7 @@ namespace Repository
             return true;
         }
 
-        public async Task<CustomerEntity> GetCustomerById(int id)
+        public async Task<CustomerEntity?> GetCustomerById(int id)
         {
             var result = await dbContext.Customers.SingleOrDefaultAsync(o => o.Id == id);
             return result;
