@@ -68,6 +68,27 @@ namespace UnitTests.Services
             dbContextMock.Verify(x => x.SaveChanges(), Times.Once);
         }
 
+        public async Task GetCustomer_OnSuccess_Returns_Customer()
+        {
+            const int id = 1;
+
+            var repositoryMock = new Mock<IProductRepository>();
+
+            repositoryMock
+                .Setup(x => x.CreateProduct(It.IsAny<ProductEntity>()))
+                .ReturnsAsync(entity);
+
+            var customerService = new ProductService(repositoryMock.Object, dbContextMock.Object);
+
+            var result = await customerService.GetProduct(id);
+
+            result.Should().NotBeNull();
+            //result.Id.Should().Be(id); cant check as Id has protected setter
+            result.Name.Should().Be(entity.Name);
+            result.Description.Should().Be(entity.Description);
+            result.Sku.Should().Be(entity.Sku.Value);
+        }
+
         [Fact]
         public async Task CreateProduct_OnSuccess_ReturnId()
         {
