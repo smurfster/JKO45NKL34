@@ -26,7 +26,18 @@ namespace UnitTests.Controllers
             Name = "name",
             Sku = "sku"
         };
-        
+
+        [Fact]
+        public async Task Delete_OnSuccess_ReturnOK()
+        {
+            var productServiceMock = SetupProductServiceMock();
+
+            var sut = new ProductController(productServiceMock.Object);
+
+            var result = await sut.Delete(id) as OkResult;
+            result.StatusCode.Should().Be(200);
+        }
+
         [Fact]
         public async Task Update_OnSuccess_ReturnStatusCode204()
         {

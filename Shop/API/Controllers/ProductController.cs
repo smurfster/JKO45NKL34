@@ -26,6 +26,12 @@ namespace API.Controllers
             return CreatedAtAction(nameof(Get), result);
         }
 
+        [HttpDelete]
+        public Task<OkResult> Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         [HttpGet]
         public async Task<IActionResult> Get(int id)
         {
