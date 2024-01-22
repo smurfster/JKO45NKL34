@@ -19,6 +19,18 @@ namespace UnitTests.Controllers
         };
 
         [Fact]
+        public async Task Get_OnSuccess_ReturnStatusCode200()
+        {
+            var productServiceMock = SetupProductServiceMock();
+
+            var sut = new ProductController(productServiceMock.Object);
+
+            var result = await sut.Get(id) as OkObjectResult;
+
+            result.StatusCode.Should().Be(200);
+        }
+
+        [Fact]
         public async Task Create_OnSuccess_ReturnStatusCode201()
         {
             var productServiceMock = SetupProductServiceMock();

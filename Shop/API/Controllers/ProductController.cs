@@ -25,5 +25,11 @@ namespace API.Controllers
             var result = await productService.CreateProduct(product);
             return CreatedAtAction("/", result);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Get(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
