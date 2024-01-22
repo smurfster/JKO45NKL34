@@ -27,9 +27,9 @@ namespace API.Controllers
         }
 
         [HttpDelete]
-        public Task<OkResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            throw new NotImplementedException();
+            return Ok("ok");
         }
 
         [HttpGet]
