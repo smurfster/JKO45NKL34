@@ -32,8 +32,8 @@ namespace UnitTests.Controllers
         {
             var productServiceMock = SetupProductServiceMock();
             productServiceMock
-                .Setup(x => x.GetProduct(id))
-                .ReturnsAsync(modelresp);
+                .Setup(x => x.Update(id, model))
+                .ReturnsAsync(true);
 
             var sut = new ProductController(productServiceMock.Object);
 
@@ -44,10 +44,7 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task Update_OnSuccess_InvokesCustomerServiceExactlyOnce()
         {
-            var productServiceMock = SetupProductServiceMock();
-            productServiceMock
-                .Setup(x => x.GetProduct(id))
-                .ReturnsAsync(modelresp);
+            var productServiceMock = SetupProductServiceMock();           
 
             var sut = new ProductController(productServiceMock.Object);
 
@@ -61,7 +58,8 @@ namespace UnitTests.Controllers
         {
             var productServiceMock = SetupProductServiceMock();
             productServiceMock
-                .Setup(x => x.GetProduct(id));
+                .Setup(x => x.Update(id, model))
+                .ReturnsAsync(false); ; 
 
             var sut = new ProductController(productServiceMock.Object);
             
