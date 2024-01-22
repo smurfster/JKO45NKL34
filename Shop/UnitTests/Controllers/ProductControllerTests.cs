@@ -34,7 +34,7 @@ namespace UnitTests.Controllers
 
             var sut = new ProductController(productServiceMock.Object);
 
-            var result = await sut.Delete(id) as OkResult;
+            var result = await sut.Delete(id) as OkObjectResult;
             result.StatusCode.Should().Be(200);
         }
 
