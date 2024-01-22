@@ -42,8 +42,13 @@ namespace Service
         public async Task<bool> Update(int id, CreateUpdateProductRequestModel model)
         {
             var entity = model.CreateUpdateProductRequestModelToProductEntity();
-            await productRepository.UpdateProduct(id, entity);
+            var result = await productRepository.UpdateProduct(id, entity);
             dbContext.SaveChanges();
+            if ((result.IsError && result.FirstError.Type == ErrorOr.ErrorType.NotFound))
+            { 
+                return false; 
+            }            
+            
             return true;
         }
     }
