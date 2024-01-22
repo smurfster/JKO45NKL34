@@ -39,8 +39,8 @@ namespace UnitTests.Services
         [Fact]
         public async Task Delete_WhenCalled_InvokesProductRepositoryAndDbContextSave()
         {
-
             var repositoryMock = new Mock<IProductRepository>();
+            repositoryMock.Setup(x => x.DeleteProduct(id));
 
             var sut = new ProductService(repositoryMock.Object, dbContextMock.Object);
 
