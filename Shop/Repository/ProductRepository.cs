@@ -16,5 +16,10 @@ namespace Repository
             var result = await dbContext.Products.AddAsync(productEntity);
             return result.Entity;
         }
+
+        public Task<ProductEntity> GetProduct(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

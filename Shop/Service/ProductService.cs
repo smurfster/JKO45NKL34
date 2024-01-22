@@ -22,14 +22,21 @@ namespace Service
         {
             var entity = model.CreateUpdateProductRequestModelToProductEntity();
             var product = await productRepository.CreateProduct(entity);
-            
+
             dbContext.SaveChanges();
             return product.Id;
         }
 
-        public Task<GetProductResponseModel> GetProduct(int id)
+        public async Task<GetProductResponseModel> GetProduct(int id)
         {
-            throw new NotImplementedException();
+            var result = await productRepository.GetProduct(id);
+
+            if (result == null)
+            {
+                return null;
+            }
+
+            return result.ProductEntityToGetProductResponseModel();
         }
     }
 }

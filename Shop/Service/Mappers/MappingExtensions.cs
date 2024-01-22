@@ -32,5 +32,16 @@ namespace Service.Mappers
         {
             return new ProductEntity(model.Name, model.Description, SKU.Create(model.Sku)!);
         }
+
+        internal static GetProductResponseModel ProductEntityToGetProductResponseModel(this ProductEntity entity)
+        {
+            return new GetProductResponseModel()
+            {
+                Id = entity.Id,
+                Name = entity.Name,
+                Description = entity.Description,
+                Sku = entity.Sku.Value
+            };
+        }
     }
 }
