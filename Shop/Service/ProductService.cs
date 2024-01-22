@@ -28,10 +28,14 @@ namespace Service
         }
 
         public async Task<bool> Delete(int id)
-        {
-            await productRepository.DeleteProduct(id);
-            dbContext.SaveChanges();
-            return true;
+        {            
+            if (await productRepository.DeleteProduct(id))
+            {
+                dbContext.SaveChanges();
+                return true;
+            }
+
+            return false;
         }
 
         public async Task<GetProductResponseModel> GetProduct(int id)
