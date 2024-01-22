@@ -23,6 +23,20 @@ namespace UnitTests.Services
             Sku = "sku"
         };
 
+
+        [Fact]
+        public async Task Delete_OnSuccess_ReturnsTrue()
+        {
+            var repositoryMock = new Mock<IProductRepository>();
+            repositoryMock.Setup(x => x.DeleteProduct(id)).ReturnsAsync(true);
+
+            var sut = new ProductService(repositoryMock.Object, dbContextMock.Object);
+
+            var result = await sut.Delete(id);
+
+            result.Should().Be(true);
+        }
+
         [Fact]
         public async Task UpdateProduct_WhenCalled_InvokesProductRepositoryAndDbContextMock()
         {

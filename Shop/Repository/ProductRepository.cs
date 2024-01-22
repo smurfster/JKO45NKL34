@@ -20,6 +20,11 @@ namespace Repository
             return result.Entity;
         }
 
+        public async Task<bool> DeleteProduct(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<ProductEntity> GetProduct(int id)
         {
             var result = await dbContext.Products.SingleOrDefaultAsync(o => o.Id == id);
