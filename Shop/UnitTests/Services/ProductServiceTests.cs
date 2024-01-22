@@ -1,6 +1,7 @@
 ﻿using Domain.Entities.Customer;
 using Domain.Entities.Product;
 using Domain.Persistence;
+using FluentAssertions;
 using Models;
 using Moq;
 using Repository;
@@ -35,6 +36,25 @@ namespace UnitTests.Services
 
             repositoryMock.Verify(x => x.CreateProduct(It.IsAny<ProductEntity>()), Times.Once());
             dbContextMock.Verify(x => x.SaveChanges(), Times.Once);
+        }
+
+        [Fact]
+        public async Task CreateProduct_OnSuccess_ReturnId()
+        {
+            var repositoryMock = new Mock<IProductRepository>();
+            var productEntity = new ProductEntity("bike", "big bike", SKU.Create("sku125")!);
+            var type = productEntity.GetType();
+            var idProperty = type.GetProperty(nameof(ProductEntity.Id));
+            idProperty!.SetValue(productEntity, 34);
+
+            repositoryMock
+                .Setup(x => x.CreateProduct(It.IsAny<ProductEntity>()))
+                .ReturnsAsync(productEntity);
+
+            var customerService = new ProductService(repositoryMock.Object, dbContextMock.Object);
+
+            var result = await customerService.CreateProduct(model);
+            result.Should().Be(productEntity.Id);
         }
     }
 }
