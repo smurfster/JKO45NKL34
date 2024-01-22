@@ -23,7 +23,7 @@ namespace API.Controllers
         public async Task<IActionResult> Create(CreateUpdateProductRequestModel product)
         {
             var result = await productService.CreateProduct(product);
-            return CreatedAtAction("get", result);
+            return CreatedAtAction("/", result);
         }
     }
 }

@@ -1,12 +1,20 @@
 ﻿using Domain.Entities.Product;
+using Domain.Persistence;
 
 namespace Repository
 {
     public class ProductRepository : IProductRepository
     {
-        public Task<ProductEntity> CreateProduct(ProductEntity productEntity)
+        private readonly EFContext dbContext;
+
+        public ProductRepository(EFContext dbContext)
         {
-            throw new NotImplementedException();
+            this.dbContext = dbContext;
+        }
+        public async Task<ProductEntity> CreateProduct(ProductEntity productEntity)
+        {
+            var result = await dbContext.Products.AddAsync(productEntity);
+            return result.Entity;
         }
     }
 }
