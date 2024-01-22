@@ -56,6 +56,23 @@ namespace UnitTests.Services
         }
 
         [Fact]
+        public async Task UpdateProduct_OnSuccess_ReturnsTrue()
+        {
+            var repositoryMock = new Mock<IProductRepository>();
+            ErrorOr<ProductEntity> returnEntity = entity;
+
+            repositoryMock.Setup(x => x.UpdateProduct(id, It.IsAny<ProductEntity>()))
+                .ReturnsAsync(returnEntity);
+
+            var sut = new ProductService(repositoryMock.Object, dbContextMock.Object);
+
+            var result = await sut.Update(id, model);
+
+            returnEntity.IsError.Should().BeFalse();
+            result.Should().BeTrue();
+        }
+
+        [Fact]
         public async Task GetProduct_OnDoesNotExit_Returns_Null()
         {
             var repositoryMock = new Mock<IProductRepository>();
