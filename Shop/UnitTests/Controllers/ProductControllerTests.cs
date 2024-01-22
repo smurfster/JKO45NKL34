@@ -51,7 +51,7 @@ namespace UnitTests.Controllers
         }
 
         [Fact]
-        public async Task Get_OnNotFound_Return_Null()
+        public async Task Get_OnNotFound_Return_NotFound404()
         {
             var productServiceMock = SetupProductServiceMock();
             productServiceMock
