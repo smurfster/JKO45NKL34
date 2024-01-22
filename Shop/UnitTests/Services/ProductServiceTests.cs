@@ -37,6 +37,21 @@ namespace UnitTests.Services
         }
 
         [Fact]
+        public async Task GetProduct_WhenCalled_InvokesProductRepository()
+        {
+            const int id = 1;
+
+            var repositoryMock = new Mock<IProductRepository>();
+            repositoryMock.Setup(x => x.GetProduct(id));
+
+            var customerService = new ProductService(repositoryMock.Object, dbContextMock.Object);
+
+            var result = await customerService.GetProduct(id);
+
+            repositoryMock.Verify(x => x.GetProduct(id), Times.Once());
+        }
+
+        [Fact]
         public async Task CreateProduct_WhenCalled_InvokesCustomerRepositoryAndDbContextMock()
         {
             var repositoryMock = new Mock<IProductRepository>();
