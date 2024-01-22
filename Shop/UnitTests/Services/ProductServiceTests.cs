@@ -51,6 +51,19 @@ namespace UnitTests.Services
         }
 
         [Fact]
+        public async Task Delete_NotFound_ReturnsFalse()
+        {
+            var repositoryMock = new Mock<IProductRepository>();
+            repositoryMock.Setup(x => x.DeleteProduct(id)).ReturnsAsync(false);
+
+            var sut = new ProductService(repositoryMock.Object, dbContextMock.Object);
+
+            var result = await sut.Delete(id);
+
+            result.Should().Be(false);
+        }
+
+        [Fact]
         public async Task UpdateProduct_WhenCalled_InvokesProductRepositoryAndDbContextMock()
         {
             var repositoryMock = new Mock<IProductRepository>();
