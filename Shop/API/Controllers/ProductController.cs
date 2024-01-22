@@ -29,8 +29,12 @@ namespace API.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
-            await productService.Delete(id);
-            return Ok("ok");
+            if (await productService.Delete(id))
+            {
+                return Ok();
+            }
+
+            return NotFound();
         }
 
         [HttpGet]
