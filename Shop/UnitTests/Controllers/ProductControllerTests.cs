@@ -42,6 +42,21 @@ namespace UnitTests.Controllers
         }
 
         [Fact]
+        public async Task Update_OnSuccess_InvokesCustomerServiceExactlyOnce()
+        {
+            var productServiceMock = SetupProductServiceMock();
+            productServiceMock
+                .Setup(x => x.GetProduct(id))
+                .ReturnsAsync(modelresp);
+
+            var sut = new ProductController(productServiceMock.Object);
+
+            var result = await sut.Update(id, model);
+
+            productServiceMock.Verify(x => x.Update(id, model), Times.Once());
+        }
+
+        [Fact]
         public async Task Get_OnSuccess_Return_Product()
         {
             var productServiceMock = SetupProductServiceMock();
