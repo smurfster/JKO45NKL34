@@ -29,7 +29,7 @@ namespace Service
 
         public async Task<bool> Delete(int id)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public async Task<GetProductResponseModel> GetProduct(int id)
