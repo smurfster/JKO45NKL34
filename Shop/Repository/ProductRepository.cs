@@ -22,7 +22,12 @@ namespace Repository
 
         public async Task<bool> DeleteProduct(int id)
         {
-            throw new NotImplementedException();
+            var product = await dbContext.Products.FindAsync(id);
+
+            if (product == null) { return false; }
+
+            dbContext.Products.Remove(product);
+            return true;
         }
 
         public async Task<ProductEntity> GetProduct(int id)
