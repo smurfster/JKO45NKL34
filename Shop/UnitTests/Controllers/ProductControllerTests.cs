@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Models;
 using Moq;
 using Service;
+using System.Xml.Linq;
 
 namespace UnitTests.Controllers
 {
@@ -17,6 +18,37 @@ namespace UnitTests.Controllers
             Name = "name",
             Sku = "sku"
         };
+
+        GetProductResponseModel modelresp = new GetProductResponseModel()
+        {
+            Id = id,
+            Description = "description",
+            Name = "name",
+            Sku = "sku"
+        };
+
+        [Fact]
+        public async Task Get_OnSuccess_Return_Product()
+        {
+            var productServiceMock = SetupProductServiceMock();
+            productServiceMock
+                .Setup(x => x.GetProduct(id))
+                .ReturnsAsync(modelresp);
+
+            var sut = new ProductController(productServiceMock.Object);
+
+            var result = await sut.Get(id);
+
+            result.Should().BeOfType<OkObjectResult>();
+            var resultObj = (OkObjectResult)result;
+            resultObj.Value.Should().BeOfType<GetProductResponseModel>();
+            var customer = resultObj.Value as GetProductResponseModel;
+            customer.Should().NotBeNull();
+            customer.Sku.Should().Be(model.Sku);
+            customer.Id.Should().Be(id);
+            customer.Name.Should().Be(model.Name);
+            customer.Sku.Should().Be(model.Sku);
+        }
 
         [Fact]
         public async Task Get_OnSuccess_ReturnStatusCode200()
@@ -41,6 +73,8 @@ namespace UnitTests.Controllers
 
             productServiceMock.Verify(x => x.GetProduct(id), Times.Once());
         }
+
+
 
         [Fact]
         public async Task Create_OnSuccess_ReturnStatusCode201()
