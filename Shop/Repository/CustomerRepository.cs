@@ -37,7 +37,7 @@ namespace Repository
 
         public async Task<bool> UpdateCustomer(int id, CustomerEntity customerEntity)
         {
-            var customer = dbContext.Customers.FindAsync(id).Result;
+            var customer = await dbContext.Customers.FindAsync(id);
 
             if (customer == null) return false;
 

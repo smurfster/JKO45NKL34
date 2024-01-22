@@ -19,5 +19,26 @@
             this.Description = description;
             this.Sku = sku;
         }
+
+        public void UpdateName(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
+
+            this.Name = name;
+        }
+
+        public void UpdateDescription(string description)
+        {
+            if (string.IsNullOrWhiteSpace(description)) throw new ArgumentNullException(nameof(description));
+
+            this.Description = description;
+        }
+
+        public void UpdateSKU(string sku)
+        {
+            if (string.IsNullOrWhiteSpace(sku)) throw new ArgumentNullException(nameof(sku));
+
+            this.Sku = SKU.Create(sku)!;
+        }
     }
 }

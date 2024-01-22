@@ -1,4 +1,5 @@
-﻿using Domain.Entities.Product;
+﻿using Domain.Entities.Customer;
+using Domain.Entities.Product;
 using Domain.Persistence;
 using ErrorOr;
 using Microsoft.EntityFrameworkCore;
@@ -27,7 +28,15 @@ namespace Repository
 
         public async Task<ErrorOr<ProductEntity>> UpdateProduct(int id, ProductEntity productEntity)
         {
-            throw new NotImplementedException();
+            var product = await dbContext.Products.FindAsync(id);
+            
+            if (product == null) return Error.NotFound();
+
+            product.UpdateDescription(productEntity.Description);
+            product.UpdateSKU(productEntity.Sku.Value);
+            product.UpdateName(productEntity.Name);
+
+            return product;
         }
     }
 }
