@@ -39,7 +39,7 @@ namespace Service
             return result.ProductEntityToGetProductResponseModel();
         }
 
-        public void Update(int id, CreateUpdateProductRequestModel model)
+        public async Task<bool> Update(int id, CreateUpdateProductRequestModel model)
         {
             throw new NotImplementedException();
         }
